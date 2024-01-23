@@ -7,7 +7,7 @@ export const InsightCard = ({ data }) => {
   let insightImageURl = "https://www.flentis.com" + data.banner_image.slice(1);
   let insightTitle = data.title;
   let insightDesc = data.meta_description;
-  let insightTags = data.tags.split(" ");
+  let insightTags = data.tags.split(",");
   return (
     <>
       <div
