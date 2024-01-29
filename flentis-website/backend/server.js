@@ -59,12 +59,16 @@ app.get("/getInsights/:type", async (req, res) => {
     // res.json(iType);
     try {
       let result;
-      if (iType.toLowerCase() == "all")
+      if (iType.toLowerCase() == "all") {
         result =
-          await sql.query`SELECT top 6 * FROM TblBlogs order by created_date desc`;
-      else
+          await sql.query`SELECT top 6 id,insight_type,banner_image,title,meta_description,tags,url_link FROM TblBlogs order by created_date desc`;
+      }
+      else {
         result =
-          await sql.query`SELECT top 6 * FROM TblBlogs where insight_type like ${iType}`;
+          await sql.query`SELECT top 6 id,insight_type,banner_image,title,meta_description,tags,url_link FROM TblBlogs where insight_type like ${iType} order by created_date desc`;
+      }
+      console.log(result.recordset);
+      console.log('---------------------------------------------------------');
       return res.json(result.recordset);
     } catch (err) {
       console.error(err);

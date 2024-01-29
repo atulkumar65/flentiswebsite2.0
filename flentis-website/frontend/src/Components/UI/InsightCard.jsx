@@ -16,7 +16,6 @@ export const InsightCard = ({ data }) => {
     setImgValid(false);
   }
 
-  console.log(insightImageURl)
   return (
     <>
       <div
@@ -55,10 +54,10 @@ export const InsightCard = ({ data }) => {
 };
 
 const InsightTags = (props) => {
-  let tag = props.tag; //?.charAt(0).ToUpperCase() + props.tag?.slice(1);
+  let mytag = props.tag.toString().trim().charAt(0).toUpperCase() + props.tag.toString().trim().slice(1);
   return (
     <span className="badge rounded-pill" style={{ marginRight: 10 }}>
-      {tag}
+      {mytag}
     </span>
   );
 };

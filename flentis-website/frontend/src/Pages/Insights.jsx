@@ -3,13 +3,16 @@ import { useParams } from 'react-router-dom'
 import InsightCardStatic from "../Components/UI/InsightCardStatic";
 import PillButtons from '../Components/UI/PillButtons';
 import { InsightCard } from '../Components/UI/InsightCard';
+
 const Insights = () => {
   let { type } = useParams() || null;
   const alltypes = ['All', 'Blog', 'Case Study', 'Webinar', 'Infographics', 'Video', 'E-book', 'Whitepaper', 'Announcement'];
-
+  const siteURL = process.env.SITEURL
+  console.log('siteurl : ' +siteURL)
   const [searchInput, setSearchInput] = useState('');
   const [insightType, setInsightType] = useState(type || 'All');
   const [cardData, setCardData] = useState([]);
+  const [cardDataRecommended, setCardDataRecommended] = useState([]);
 
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
@@ -22,14 +25,24 @@ const Insights = () => {
     setInsightType(itype);
   }
 
-  useEffect(()=>{
-    fetch('http://localhost:5000/insights') 
+  useEffect(() => {
+    fetch('http://localhost:5000/insights')
+      .then(response => response.json())
+      .then(data => {
+        setCardData(data);
+        setCardDataRecommended(data.slice(0,3));
+      })
+      .catch(error => console.error('Error:', error));
+  }, [])
+
+  useEffect(() => {
+    fetch('http://localhost:5000/getInsights/' + insightType)
       .then(response => response.json())
       .then(data => {
         setCardData(data);
       })
       .catch(error => console.error('Error:', error));
-  },[])
+  }, [insightType])
 
   return (
     <>
@@ -64,7 +77,7 @@ const Insights = () => {
               data-wow-delay="500ms"
             >
               <form
-                onSubmit={handleSearch}
+                onSubmit=''
                 className="row insight-search-box position-relative "
               >
                 <div className="col-xl-5 ">
@@ -132,8 +145,6 @@ const Insights = () => {
             </div>
           </div>
           <div className="row mt-4" id="card-container">
-            {/* All the cards go inside to this container */}
-            {/* <InsightCardStatic /> */}
             {
               cardData.map((card) => (
                 <InsightCard key={card.id} data={card} />
@@ -149,7 +160,6 @@ const Insights = () => {
               type="submit"
               id="btnLoadMore"
               className="btn btn-primary view-more-btn ml-sm-0"
-              // onClick="loadMore()"
             >
               View more
             </button>
@@ -174,7 +184,9 @@ const Insights = () => {
             className="row mt-5 insight-recommended-section"
             id="recommendedSection"
           >
-            {/* section for recommended articles */}
+            {cardDataRecommended.map((card) => (
+              <InsightCard key={card.id} data={card} />
+            ))}
           </div>
         </div>
       </section>
