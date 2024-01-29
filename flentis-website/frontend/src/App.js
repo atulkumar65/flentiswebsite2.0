@@ -7,6 +7,7 @@ import Solutions from './Pages/Solutions';
 import Webinar from './Pages/Webinar';
 import Insights from './Pages/Insights';
 import { Helmet } from 'react-helmet-async';
+import StaffingThesaurus from './Pages/StaffingThesaurus';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/solutions" element={<Solutions />} />
+            <Route path="/staffing-thesaurus" element={<StaffingThesaurus />} />
             <Route path="/insight" element={<Insights />}>
               <Route path=":type" element={<Insights />} />
             </Route>

@@ -7,8 +7,6 @@ import { InsightCard } from '../Components/UI/InsightCard';
 const Insights = () => {
   let { type } = useParams() || null;
   const alltypes = ['All', 'Blog', 'Case Study', 'Webinar', 'Infographics', 'Video', 'E-book', 'Whitepaper', 'Announcement'];
-  const siteURL = process.env.SITEURL
-  console.log('siteurl : ' +siteURL)
   const [searchInput, setSearchInput] = useState('');
   const [insightType, setInsightType] = useState(type || 'All');
   const [cardData, setCardData] = useState([]);
@@ -99,7 +97,7 @@ const Insights = () => {
                 </div>
                 <div className="col col-xl-3 col-12 text-lg-start text-center">
                   <a
-                    href="/staffing-thesaurus.aspx"
+                    href="/staffing-thesaurus"
                     className="btn btn-outline-primary mb-3 flashcard-btn"
                   >
                     Flashcards
