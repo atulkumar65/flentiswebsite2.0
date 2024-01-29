@@ -31,7 +31,7 @@ export const InsightCard = ({ data }) => {
         <a style={{ cursor: "pointer" }} href={insightURl}>
           <div className="filter-results-data">
             <img
-              src={insightImageURl}
+              src={!imgValid ? errImage : insightImageURl}
               className="img-fluid"
               style={{ borderRadius: 5 }}
               alt="VMS in Recruiting"
