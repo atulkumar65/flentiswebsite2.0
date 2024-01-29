@@ -27,8 +27,6 @@ const Insights = () => {
       .then(response => response.json())
       .then(data => {
         setCardData(data);
-        console.log(data);
-        console.log(cardData);
       })
       .catch(error => console.error('Error:', error));
   },[])

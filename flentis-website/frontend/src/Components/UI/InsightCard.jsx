@@ -1,17 +1,26 @@
 import React from "react";
 
 export const InsightCard = ({ data }) => {
-  let insightURl = `/insights/${data.insight_type.toLowerCase()}/${
-    data.url_link
-  }`;
+  let insightURl = `/insights/${data.insight_type.toLowerCase()}/${data.url_link}`;
   let insightImageURl = "https://www.flentis.com" + data.banner_image.slice(1);
   let insightTitle = data.title;
   let insightDesc = data.meta_description;
   let insightTags = data.tags.split(",");
+  var errImage = '/assets/images/BlogImages/Announcing Reasons that will Make You Try this Direct Sourcing Recruitment Platform.png';
+  const [imgValid, setImgValid] = React.useState(true);
+
+  var image = new Image();
+  image.src = insightImageURl;
+  image.onerror = () => {
+    console.log('image doesn t exist');
+    setImgValid(false);
+  }
+
+  console.log(insightImageURl)
   return (
     <>
       <div
-        className="col-xl-4 col-12 wow fadeInUp animated animated"
+        className="col-xl-4 col-12 wow fadeInUp animated"
         data-wow-delay="500ms"
         style={{
           visibility: "visible",
