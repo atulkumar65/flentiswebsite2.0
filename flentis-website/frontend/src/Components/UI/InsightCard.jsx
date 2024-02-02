@@ -1,7 +1,8 @@
 import React from "react";
+import InsightTags from "./InsightTags";
 
 export const InsightCard = ({ data }) => {
-  let insightURl = `/insights/${data.insight_type.toLowerCase()}/${data.url_link}`;
+  let insightURl = `/insight/${data.insight_type.toLowerCase().replace(" ", "-")}/${data.url_link}`;
   let insightImageURl = "https://www.flentis.com" + data.banner_image.slice(1);
   let insightTitle = data.title;
   let insightDesc = data.meta_description;
@@ -53,11 +54,3 @@ export const InsightCard = ({ data }) => {
   );
 };
 
-const InsightTags = (props) => {
-  let mytag = props.tag.toString().trim().charAt(0).toUpperCase() + props.tag.toString().trim().slice(1);
-  return (
-    <span className="badge rounded-pill" style={{ marginRight: 10 }}>
-      {mytag}
-    </span>
-  );
-};

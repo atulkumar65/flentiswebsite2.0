@@ -132,7 +132,6 @@ app.get("/", async (req, res) => {
   }); try {
     const result = await sql.query`SELECT top 1 * FROM TblBlogs`;
     res.json(result.recordset[0].id);
-    console.log(result.recordset[0]);
   } catch (err) {
     console.error("Error executing SQL query", err);
     res.status(500).send("Internal Server Error");
@@ -151,8 +150,8 @@ app.get("/getInsights/:type", async (req, res) => {
       else {
         result = await sql.query`SELECT top 6 id,insight_type,banner_image,title,meta_description,tags,url_link FROM TblBlogs where insight_type like ${iType} order by created_date desc`;
       }
-      console.log(result.recordset);
-      console.log('---------------------------------------------------------');
+      // console.log(result.recordset);
+      // console.log('---------------------------------------------------------');
       return res.json(result.recordset);
     } catch (err) {
       console.error(err);
@@ -176,7 +175,8 @@ app.get("/insights", async (req, res) => {
 app.get("/insights/:custom_url", async (req, res) => {
   try {
     const result =
-      await sql.query`SELECT top 6 * FROM TblBlogs order by created_date desc`;
+      await sql.query`SELECT * FROM TblBlogs where url_link = ${req.params.custom_url} order by created_date desc`;
+      // console.log(result.recordset);
     return res.json(result.recordset);
   } catch (err) {
     console.error(err);
