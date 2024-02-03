@@ -5,7 +5,7 @@ const cors = require("cors");
 
 app.use(cors()); // Enable CORS
 
-const config = {
+const dbConfig = {
   user: "db_a8fc99_newflentiswebsite_admin",
   password: "Aseem@1234",
   server: "sql8002.site4now.net",
