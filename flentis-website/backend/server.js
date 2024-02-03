@@ -43,7 +43,7 @@ connectToDatabase();
 app.get("/", async (req, res) => {
   try {
     const result = await sql.query`SELECT top 1 * FROM TblBlogs`;
-    res.json(result.recordset[0].id);
+    res.json('NOT ALLOWED');
   } catch (err) {
     console.error("Error executing SQL query", err);
     res.status(500).send("Internal Server Error");
@@ -77,7 +77,6 @@ app.get("/insights/:custom_url", async (req, res) => {
   try {
     const result =
       await sql.query`SELECT * FROM TblBlogs where url_link = ${req.params.custom_url} order by created_date desc`;
-    // console.log(result.recordset);
     return res.json(result.recordset);
   } catch (err) {
     console.error(err);

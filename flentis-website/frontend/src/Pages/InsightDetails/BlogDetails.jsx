@@ -9,18 +9,19 @@ const BlogDetails = () => {
   const [blogdata, setBlogData] = useState({});
   const [tags, setTags] = useState([]);
   const [authImage, setAuthImage] = useState("");
+  const [bannerImage, setBannerImage] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:5000/insights/" + url_link)
       .then((response) => response.json())
       .then((data) => {
-        console.log("data on frontend : " + JSON.stringify(data));
         setBlogData(data[0]);
         setTags( data[0].tags.split(","));
-        setAuthImage(data[0].author_image);
+        setAuthImage(data[0].author_image.slice(1));
+        setBannerImage(data[0].banner_image.slice(1));
       })
       .catch((error) => console.error("Error:", error));
-  }, [url_link]);
+  }, []);
 
   return (
     <>
@@ -41,7 +42,6 @@ const BlogDetails = () => {
               </div>
               <div className="insight-details-top-section">
                 <h2>{blogdata.title}</h2>
-                {/* id="content1" */}
                 <p
                   className="blue-link"
                   dangerouslySetInnerHTML={{ __html: blogdata.content1 }}
@@ -50,7 +50,7 @@ const BlogDetails = () => {
               <div className="d-flex align-items-center blog-author">
                 <div className="flex-shrink-0" id="authorImageContainer">
                   <img
-                    // src={}
+                    src={authImage}
                     alt="author_image"
                   />
                 </div>
@@ -66,7 +66,13 @@ const BlogDetails = () => {
               className="col-xl-4 pt-4 wow fadeInRight"
               data-wow-delay="400ms"
             >
-              <div id="bannerContainer1"></div>
+              <div id="bannerContainer1">
+                <img
+                  src={bannerImage}
+                  alt="banner_image"
+                  className="img-fluid"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -89,8 +95,8 @@ const BlogDetails = () => {
           <div className="row blog-content">
             <div className="col-xl-12 wow fadeInUp" data-wow-delay="100ms">
               <div className="insight-details-top-section text-center pe-0">
-                <h2 id="headline" />
-                <p id="subheadline" />
+                <h2 id="headline">headline</h2>
+                <p id="subheadline">subheadline</p>
                 <br />
               </div>
             </div>
@@ -112,29 +118,35 @@ const BlogDetails = () => {
               >
                 <ul>
                   <li>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a onclick="fbshareCurrentPage()">
                       <img
                         src="https://www.newflentiswebsite.flentisdemo.com/assets/images/share-post-social-icon/facebook.png"
                         className="img-fluid"
                         style={{ height: 35, width: 35 }}
+                        alt="facebook"
                       />
                     </a>
                   </li>
                   <li>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a onclick="twitterShareCurrentPage()">
                       <img
                         src="https://www.newflentiswebsite.flentisdemo.com/assets/images/share-post-social-icon/twitter.png"
                         className="img-fluid"
                         style={{ height: 35, width: 35 }}
+                        alt="twitter"
                       />
                     </a>
                   </li>
                   <li>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a onclick="linkedInShareCurrentPage()">
                       <img
                         src="https://www.newflentiswebsite.flentisdemo.com/assets/images/share-post-social-icon/linkedin.png"
                         className="img-fluid"
                         style={{ height: 35, width: 35 }}
+                        alt="linkedin"
                       />
                     </a>
                   </li>
@@ -151,6 +163,7 @@ const BlogDetails = () => {
               <img
                 src="https://www.newflentiswebsite.flentisdemo.com/assets/images/share-post-img.png"
                 className="img-fluid"
+                alt="n/a"
               />
             </div>
           </div>

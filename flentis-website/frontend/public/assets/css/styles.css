@@ -6276,7 +6276,7 @@ font-weight: 500;
 	.alphabetical-order { top: -10%;}
 	.background-word { top: -112px;}
 	.background-word h1 {font-size: 215px;}
-	.py-100 { padding-top: 70px;}
+	/* .py-100 { padding-top: 70px;} */
 	.flashcards-search-section .flashcards-search-section-shapes .fss-shapes-1 {
 		width:260px;
 	}

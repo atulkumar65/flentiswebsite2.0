@@ -1,46 +1,61 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import InsightCardStatic from "../Components/UI/InsightCardStatic";
-import PillButtons from '../Components/UI/PillButtons';
-import { InsightCard } from '../Components/UI/InsightCard';
+import PillButtons from "../Components/UI/PillButtons";
+import { InsightCard } from "../Components/UI/InsightCard";
 
 const Insights = () => {
   let { type } = useParams() || null;
-  const alltypes = ['All', 'Blog', 'Case Study', 'Webinar', 'Infographics', 'Video', 'E-book', 'Whitepaper', 'Announcement'];
-  const [searchInput, setSearchInput] = useState('');
-  const [insightType, setInsightType] = useState(type || 'All');
+  const alltypes = [
+    "All",
+    "Blog",
+    "Case Study",
+    "Webinar",
+    "Infographics",
+    "Video",
+    "E-book",
+    "Whitepaper",
+    "Announcement",
+  ];
+  const [searchInput, setSearchInput] = useState("");
+  const [insightType, setInsightType] = useState(type || "All");
   const [cardData, setCardData] = useState([]);
   const [cardDataRecommended, setCardDataRecommended] = useState([]);
 
   const handleSearchInputChange = (event) => {
-    setSearchInput(event.target.value);
+    let searchQuery = event.target.value;
+    console.log(searchQuery);
+    setSearchInput(searchQuery);
   };
 
-  const handleSearch = () => {
+  const handleSearch = (event) => {
+    event.preventDefault();
+    console.log(searchInput.trim().length);
+    if (searchInput.trim().length > 0) console.log(searchInput);
   };
 
   const handlePill = (itype) => {
     setInsightType(itype);
-  }
+  };
+
+  // useEffect to set insight type to "all" when component mounts
+  useEffect(() => {
+    setInsightType("all");
+  }, []);
 
   useEffect(() => {
-    fetch('http://localhost:5000/insights')
-      .then(response => response.json())
-      .then(data => {
+    fetch("http://localhost:5000/getInsights/" + insightType)
+      .then((response) => response.json())
+      .then((data) => {
         setCardData(data);
-        setCardDataRecommended(data.slice(0,3));
+        if(insightType === "all")
+        {
+          setCardDataRecommended(data.slice(0,3));
+        }
       })
-      .catch(error => console.error('Error:', error));
-  }, [])
-
-  useEffect(() => {
-    fetch('http://localhost:5000/getInsights/' + insightType)
-      .then(response => response.json())
-      .then(data => {
-        setCardData(data);
-      })
-      .catch(error => console.error('Error:', error));
-  }, [insightType])
+      .then(() => console.log("/getInsights/"))
+      .catch((error) => console.error("Error:", error));
+  }, [insightType]);
 
   return (
     <>
@@ -75,33 +90,35 @@ const Insights = () => {
               data-wow-delay="500ms"
             >
               <form
-                onSubmit=''
+                onSubmit={handleSearch}
                 className="row insight-search-box position-relative "
               >
-                <div className="col-xl-5 ">
-                  <input
-                    type="text"
-                    className="form-control search-input"
-                    id="txtSearch"
-                    placeholder="Enter Your Search Term"
-                    onChange={handleSearchInputChange}
-                  />
-                </div>
-                <div className="col-xl-3">
-                  <button
-                    onClick={handleSearch}
-                    className="btn btn-primary mb-3 search-btn"
-                  >
-                    Search
-                  </button>
-                </div>
-                <div className="col col-xl-3 col-12 text-lg-start text-center">
-                  <a
-                    href="/staffing-thesaurus"
-                    className="btn btn-outline-primary mb-3 flashcard-btn"
-                  >
-                    Flashcards
-                  </a>
+                <div className="row insight-search-box position-relative ">
+                  <div className="col-xl-5 ">
+                    <input
+                      type="text"
+                      className="form-control search-input"
+                      id="txtSearch"
+                      placeholder="Enter Your Search Term"
+                      onChange={handleSearchInputChange}
+                    />
+                  </div>
+                  <div className="col-xl-3">
+                    <button
+                      onClick={handleSearch}
+                      className="btn btn-primary mb-3 search-btn"
+                    >
+                      Search
+                    </button>
+                  </div>
+                  <div className="col col-xl-3 col-12 text-lg-start text-center">
+                    <a
+                      href="/staffing-thesaurus"
+                      className="btn btn-outline-primary mb-3 flashcard-btn"
+                    >
+                      Flashcards
+                    </a>
+                  </div>
                 </div>
               </form>
             </div>
@@ -111,13 +128,17 @@ const Insights = () => {
                 alltypes={alltypes}
                 onValuechange={handlePill}
               />
-              <p>{insightType}</p>
+              {/* <p>{insightType}</p> */}
             </>
           </div>
         </div>
         <div className="announcement-img wow fadeInUp" data-wow-delay="300ms">
           <p>
-            <img src="/assets/images/announcement-img.png" className="" alt="n/a"/>
+            <img
+              src="/assets/images/announcement-img.png"
+              className=""
+              alt="n/a"
+            />
           </p>
         </div>
       </section>
@@ -143,11 +164,9 @@ const Insights = () => {
             </div>
           </div>
           <div className="row mt-4" id="card-container">
-            {
-              cardData.map((card) => (
-                <InsightCard key={card.id} data={card} />
-              ))
-            }
+            {cardData.map((card) => (
+              <InsightCard key={card.id} data={card} />
+            ))}
           </div>
           <div
             className="col-xl-12 text-center mt-xl-5 wow fadeInUp animated animated"
@@ -190,6 +209,6 @@ const Insights = () => {
       </section>
     </>
   );
-}
+};
 
 export default Insights;
