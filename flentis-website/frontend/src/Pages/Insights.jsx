@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import InsightCardStatic from "../Components/UI/InsightCardStatic";
 import PillButtons from "../Components/UI/PillButtons";
 import { InsightCard } from "../Components/UI/InsightCard";
+import { ThreeCircles } from 'react-loader-spinner';
 
 const Insights = () => {
-  let { type } = useParams() || null;
+  const serverURL = 'http://' + process.env.REACT_APP_API_BASE_URL;
+  // alert('serverURL top:'+serverURL)
+  let { type } = useParams() || 'all';
+  type = type ? type.replace("_", " ") : '';
   const alltypes = [
     "All",
     "Blog",
@@ -18,8 +21,12 @@ const Insights = () => {
     "Announcement",
   ];
   const [searchInput, setSearchInput] = useState("");
+  const [showLoader, setShowLoader] = useState(false);
   const [insightType, setInsightType] = useState(type || "All");
   const [cardData, setCardData] = useState([]);
+  const [dataLength, setDataLength] = useState(0);
+  const [allLength, setAllLength] = useState(0);
+  const [offsetValue, setOffsetValue] = useState(0);
   const [cardDataRecommended, setCardDataRecommended] = useState([]);
 
   const handleSearchInputChange = (event) => {
@@ -36,26 +43,43 @@ const Insights = () => {
 
   const handlePill = (itype) => {
     setInsightType(itype);
+    setShowLoader(true);
+    setOffsetValue(0);
   };
 
+  const handleViewMoreClick = () => {
+    let offsetVal = offsetValue + 6;
+    setShowLoader(true);
+    let server_url = `${serverURL}/${insightType}/${offsetVal}`;
+    fetch(server_url).then((data) => data.json())
+      .then((res) => {
+        let cardsLength = cardData.length + res.length;
+        setCardData((prev) => prev.concat(res));
+        setDataLength(allLength % cardsLength);
+        setOffsetValue(prev => prev + 6);
+        setShowLoader(false);
+      })
+  }
   // useEffect to set insight type to "all" when component mounts
   useEffect(() => {
-    setInsightType("all");
+    setInsightType(type || "all");
+    setShowLoader(true);
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:5000/getInsights/" + insightType)
-      .then((response) => response.json())
-      .then((data) => {
-        setCardData(data);
-        if(insightType === "all")
-        {
-          setCardDataRecommended(data.slice(0,3));
-        }
-      })
-      .then(() => console.log("/getInsights/"))
-      .catch((error) => console.error("Error:", error));
-  }, [insightType]);
+    console.log(`${serverURL}/blogsCount/${insightType}`);
+    Promise.all([
+      fetch(`${serverURL}/blogsCount/${insightType}`).then((data) => data.json()),
+      fetch(`${serverURL}/getInsights/${insightType}/0` ).then((data) => data.json()),
+      fetch(`${serverURL}/getInsightsAll`).then((data) => data.json())
+    ]).then((values) => {
+      setAllLength(values[0][0].count);
+      setCardData(values[1]);
+      setDataLength(values[0][0].count % values[1].length);
+      setCardDataRecommended(values[2].slice(0, 3));
+      setShowLoader(false);
+    });
+  }, [insightType])
 
   return (
     <>
@@ -164,22 +188,35 @@ const Insights = () => {
             </div>
           </div>
           <div className="row mt-4" id="card-container">
-            {cardData.map((card) => (
-              <InsightCard key={card.id} data={card} />
-            ))}
+            {
+              showLoader ? <div className="col-12">
+                <ThreeCircles visible={true}
+                  height="100"
+                  width="50%"
+                  color="#4557f7"
+                  ariaLabel="three-circles-loading"
+                  wrapperStyle={{ top: "50%", left: "50%", position: "absolute" }}
+                  wrapperClass="" />
+              </div> : cardData.map((card) => (
+                <InsightCard key={card.id} data={card} />
+              ))
+            }
           </div>
           <div
             className="col-xl-12 text-center mt-xl-5 wow fadeInUp animated animated"
             data-wow-delay="200ms"
             style={{ visibility: "visible", animationDelay: "200ms" }}
           >
-            <button
-              type="submit"
-              id="btnLoadMore"
-              className="btn btn-primary view-more-btn ml-sm-0"
-            >
-              View more
-            </button>
+            {
+              (dataLength > 0 && !showLoader) ? (<button
+                type="submit"
+                id="btnLoadMore"
+                className="btn btn-primary view-more-btn ml-sm-0"
+                onClick={handleViewMoreClick}
+              >
+                View more
+              </button>) : <></>
+            }
           </div>
         </div>
       </section>

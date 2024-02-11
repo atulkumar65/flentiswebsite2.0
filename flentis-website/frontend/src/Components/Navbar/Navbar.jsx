@@ -2,7 +2,7 @@ import React from 'react'
 
 const Navbar = () => {
     return (
-        <div style={{ overflowX: 'hidden !important'}} data-bs-spy="scroll" data-bs-target="#navbarExample" data-anm=".anm">
+        <div style={{ overflowX: 'hidden !important' }} data-bs-spy="scroll" data-bs-target="#navbarExample" data-anm=".anm">
             {/* <!-- Google Tag Manager (noscript) --> */}
             <noscript>
                 <iframe title="gtmFrame" src="https://www.googletagmanager.com/ns.html?id=GTM-WMT44BZ" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe>
@@ -159,35 +159,35 @@ const Navbar = () => {
                                     <div className="ruby-row justify-content-center">
                                         <div className="ruby-col-6">
                                             <div className="mt-3">
-                                                <a href="/insight?type=blog">
+                                                <a href="/insight/blog">
                                                     <h3 className="ruby-list-heading">Blog</h3>
                                                     <p className="ruby-list-description border-0">Freshly brewed ideas, valuable insights, and staffing industry information here.</p>
                                                 </a>
                                             </div>
 
                                             <div className="mt-3">
-                                                <a href="/insight?type=case_study">
+                                                <a href="/insight/case_study">
                                                     <h3 className="ruby-list-heading">Case Study</h3>
                                                     <p className="ruby-list-description border-0">A record of the transformative and inspiring journey of our clientele.</p>
                                                 </a>
                                             </div>
 
                                             <div className="mt-3">
-                                                <a href="/insight?type=whitepaper">
+                                                <a href="/insight/whitepaper">
                                                     <h3 className="ruby-list-heading">Whitepaper</h3>
                                                     <p className="ruby-list-description border-0">Explore the thought leadership on workforce management with FlentisPRO.</p>
                                                 </a>
                                             </div>
 
                                             <div className="mt-3">
-                                                <a href="/insight?type=e-book">
+                                                <a href="/insight/e-book">
                                                     <h3 className="ruby-list-heading">e-book</h3>
                                                     <p className="ruby-list-description border-0">Practical guidance for driving growth by managing the staffing process.</p>
                                                 </a>
                                             </div>
 
                                             <div className="mt-3">
-                                                <a href="/insight?type=webinar">
+                                                <a href="/insight/webinar">
                                                     <h3 className="ruby-list-heading">Webinar</h3>
                                                     <p className="ruby-list-description border-0">Watch #FlentisTuneIn episodes for unique perspectives & insights.</p>
                                                 </a>
@@ -195,21 +195,21 @@ const Navbar = () => {
                                         </div>
                                         <div className="ruby-col-6 hidden-md">
                                             <div className="mt-3">
-                                                <a href="/insight?type=announcement">
+                                                <a href="/insight/announcement">
                                                     <h3 className="ruby-list-heading">Announcements</h3>
                                                     <p className="ruby-list-description border-0">Be first to know about the exciting updates, new features, and partnerships.</p>
                                                 </a>
                                             </div>
 
                                             <div className="mt-3">
-                                                <a href="/insight?type=infographics">
+                                                <a href="/insight/infographics">
                                                     <h3 className="ruby-list-heading">Infographics</h3>
                                                     <p className="ruby-list-description border-0">Simplifying and visualizing key concepts, data, and industry trends.</p>
                                                 </a>
                                             </div>
 
                                             <div className="mt-3">
-                                                <a href="/insight?type=videos">
+                                                <a href="/insight/videos">
                                                     <h3 className="ruby-list-heading">Videos</h3>
                                                     <p className="ruby-list-description border-0">Offering dynamic feeds with compelling videos, and dynamic data insights.</p>
                                                 </a>

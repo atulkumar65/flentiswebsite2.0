@@ -5,7 +5,7 @@ export const InsightCard = ({ data }) => {
   let insightURl = `/insight/${data.insight_type.toLowerCase().replace(" ", "-")}/${data.url_link}`;
   let insightImageURl = "https://www.flentis.com" + data.banner_image.slice(1);
   let insightTitle = data.title;
-  let insightDesc = data.meta_description;
+  let insightDesc = data.meta_description && data.meta_description.length > 135 ? data.meta_description.slice(0,135).concat('...') : data.meta_description;
   let insightTags = data.tags.split(",");
   var errImage = '/assets/images/BlogImages/Announcing Reasons that will Make You Try this Direct Sourcing Recruitment Platform.png';
   const [imgValid, setImgValid] = React.useState(true);

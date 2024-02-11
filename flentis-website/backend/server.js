@@ -50,19 +50,14 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get("/getInsights/:type", async (req, res) => {
+app.get("/getInsights/:type/:offset", async (req, res) => {
   let iType = req.params["type"];
+  let offset = req.params["offset"];
+  console.log('offset : ' + offset);
   iType = iType.replace("_", " ");
   if (alltypes.includes(iType.toLowerCase())) {
     try {
-      let result;
-      if (iType.toLowerCase() == "all") {
-        result =
-          await sql.query`SELECT top 6 id,insight_type,banner_image,title,meta_description,tags,url_link FROM TblBlogs order by created_date desc`;
-      } else {
-        result =
-          await sql.query`SELECT top 6 id,insight_type,banner_image,title,meta_description,tags,url_link FROM TblBlogs where insight_type like ${iType} order by created_date desc`;
-      }
+      let result = await sql.query`exec [USPGetAllBlogsWithParams] @type = ${iType}, @offset = ${offset}`;
       return res.json(result.recordset);
     } catch (err) {
       console.error(err);
@@ -72,6 +67,37 @@ app.get("/getInsights/:type", async (req, res) => {
     return res.json("Incorrect insight type");
   }
 });
+
+app.get("/getInsightsAll", async (req, res) => {
+  try{
+    let result =
+    await sql.query`SELECT top 6 id,insight_type,banner_image,title,meta_description,tags,url_link FROM TblBlogs order by created_date desc`;
+    return res.json(result.recordset);
+  } catch (err)
+  {
+    console.error(err);
+    return res.status(500).send("Internal Server Error");
+  }
+})
+
+app.get("/blogsCount/:type", async (req, res) => {
+  try {
+    let iType = req.params["type"];
+    iType = iType.replace("_", " ");
+    let result ;
+    if (iType.toLowerCase() == "all") {
+      result =
+        await sql.query`SELECT count(id) as count FROM TblBlogs`;
+    } else {
+      result =
+        await sql.query`SELECT count(id) as count FROM TblBlogs where insight_type like ${iType}`;
+    }
+    return res.json(result.recordset);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Internal Server Error");
+  }
+})
 
 app.get("/insights/:custom_url", async (req, res) => {
   try {
@@ -83,6 +109,7 @@ app.get("/insights/:custom_url", async (req, res) => {
     return res.status(500).send("Internal Server Error");
   }
 });
+
 app.get("/flashcards", async (req, res) => {
   try {
     const result =

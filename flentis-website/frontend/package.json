@@ -9,8 +9,10 @@
     "jquery": "^3.7.1",
     "mssql": "^10.0.1",
     "react": "^18.2.0",
+    "react-datepicker": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.4",
+    "react-loader-spinner": "^6.1.6",
     "react-router-dom": "^6.21.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
