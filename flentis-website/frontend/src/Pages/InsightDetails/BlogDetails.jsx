@@ -8,7 +8,7 @@ import './Blogs.css';
 
 const BlogDetails = () => {
   const { url_link } = useParams();
-  let serverURL = `http://${process.env.REACT_APP_API_BASE_URL}`;
+  let serverURL = process.env.REACT_APP_API_BASE_URL;
   const [blogdata, setBlogData] = useState({});
   const [tags, setTags] = useState([]);
   const [authImage, setAuthImage] = useState("");

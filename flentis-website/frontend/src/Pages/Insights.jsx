@@ -5,8 +5,7 @@ import { InsightCard } from "../Components/UI/InsightCard";
 import { ThreeCircles } from 'react-loader-spinner';
 
 const Insights = () => {
-  const serverURL = 'http://' + process.env.REACT_APP_API_BASE_URL;
-  // alert('serverURL top:'+serverURL)
+  const serverURL = process.env.REACT_APP_API_BASE_URL;
   let { type } = useParams() || 'all';
   type = type ? type.replace("_", " ") : '';
   const alltypes = [
