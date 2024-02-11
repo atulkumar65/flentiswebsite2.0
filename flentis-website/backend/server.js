@@ -53,7 +53,6 @@ app.get("/", async (req, res) => {
 app.get("/getInsights/:type/:offset", async (req, res) => {
   let iType = req.params["type"];
   let offset = req.params["offset"];
-  console.log('offset : ' + offset);
   iType = iType.replace("_", " ");
   if (alltypes.includes(iType.toLowerCase())) {
     try {

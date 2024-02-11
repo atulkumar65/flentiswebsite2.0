@@ -48,21 +48,21 @@ const Insights = () => {
 
   const handleViewMoreClick = () => {
     let offsetVal = offsetValue + 6;
-    setShowLoader(true);
-    let server_url = `${serverURL}/${insightType}/${offsetVal}`;
+    let server_url = `${serverURL}/getInsights/${insightType}/${offsetVal}`;
+    alert(server_url);
     fetch(server_url).then((data) => data.json())
       .then((res) => {
         let cardsLength = cardData.length + res.length;
         setCardData((prev) => prev.concat(res));
         setDataLength(allLength % cardsLength);
         setOffsetValue(prev => prev + 6);
-        setShowLoader(false);
       })
   }
   // useEffect to set insight type to "all" when component mounts
   useEffect(() => {
     setInsightType(type || "all");
     setShowLoader(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -78,6 +78,7 @@ const Insights = () => {
       setCardDataRecommended(values[2].slice(0, 3));
       setShowLoader(false);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [insightType])
 
   return (
