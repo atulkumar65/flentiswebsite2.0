@@ -41,20 +41,21 @@ const Insights = () => {
   };
 
   const handlePill = (itype) => {
-    setInsightType(itype);
-    setShowLoader(true);
-    setOffsetValue(0);
+    // setInsightType(itype);
+    // setShowLoader(true);
+    // setOffsetValue(0);
+    window.location = "/insight/"+ itype.replace(" ", "_").toLowerCase();
   };
 
   const handleViewMoreClick = () => {
     let offsetVal = offsetValue + 6;
     let server_url = `${serverURL}/getInsights/${insightType}/${offsetVal}`;
-    alert(server_url);
+    // alert(server_url);
     fetch(server_url).then((data) => data.json())
       .then((res) => {
         let cardsLength = cardData.length + res.length;
         setCardData((prev) => prev.concat(res));
-        setDataLength(allLength % cardsLength);
+        setDataLength(allLength - cardsLength);
         setOffsetValue(prev => prev + 6);
       })
   }
