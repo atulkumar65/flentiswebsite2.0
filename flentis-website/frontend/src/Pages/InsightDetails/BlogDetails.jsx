@@ -3,8 +3,6 @@ import { useParams } from "react-router-dom";
 import InsightTags from "../../Components/UI/InsightTags";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
-// import '../../assets/css/BlogDetails.css';
-import './Blogs.css';
 
 const BlogDetails = () => {
   const { url_link } = useParams();
